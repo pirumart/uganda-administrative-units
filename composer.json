@@ -1,22 +1,22 @@
 {
-    "name": ":vendor_name/:package_name",
-    "description": ":package_description",
+    "name": "pirupius/uganda-administrative-units",
+    "description": "Laravel Package for administrative units of Uganda (Regions, Districts, Counties, Sub-Counties, Parish and Villages)",
     "keywords": [
-        ":vendor_name",
-        ":package_name"
+        "pirupius",
+        "uganda-administrative-units"
     ],
-    "homepage": "https://github.com/:vendor_name/:package_name",
+    "homepage": "https://github.com/pirupius/uganda-administrative-units",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": ":author_email",
-            "homepage": "https://PiruPius.be",
+            "name": "Rubangakene Pius",
+            "email": "piruville@gmail.com",
+            "homepage": "https://github.com/pirupius",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": "^7.4",
+        "php": "^7.1",
         "illuminate/contracts": "^8.0"
     },
     "require-dev": {

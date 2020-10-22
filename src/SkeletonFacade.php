@@ -1,11 +1,11 @@
 <?php
 
-namespace PiruPius\Skeleton;
+namespace PiruPius\Uganda\Locale;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \PiruPius\Skeleton\Skeleton
+ * @see \PiruPius\Uganda\Locale\Skeleton
  */
 class SkeletonFacade extends Facade
 {
