@@ -19,13 +19,13 @@ composer require :vendor_name/:package_name
 You can publish and run the migrations with:
 
 ```bash
-php artisan vendor:publish --provider="PiruPius\Skeleton\SkeletonServiceProvider" --tag="migrations"
+php artisan vendor:publish --provider="PiruPius\Uganda\Locale\SkeletonServiceProvider" --tag="migrations"
 php artisan migrate
 ```
 
 You can publish the config file with:
 ```bash
-php artisan vendor:publish --provider="PiruPius\Skeleton\SkeletonServiceProvider" --tag="config"
+php artisan vendor:publish --provider="PiruPius\Uganda\Locale\SkeletonServiceProvider" --tag="config"
 ```
 
 This is the contents of the published config file:
@@ -38,7 +38,7 @@ return [
 ## Usage
 
 ``` php
-$skeleton = new PiruPius\Skeleton();
+$skeleton = new PiruPius\Uganda\Locale();
 echo $skeleton->echoPhrase('Hello, PiruPius!');
 ```
 

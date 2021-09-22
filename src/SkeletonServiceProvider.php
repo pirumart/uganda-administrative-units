@@ -1,33 +1,40 @@
 <?php
 
-namespace PiruPius\Skeleton;
+namespace PiruPius\Uganda\Locale;
 
 use Illuminate\Support\ServiceProvider;
-use PiruPius\Skeleton\Commands\SkeletonCommand;
+use PiruPius\Uganda\Locale\Commands\SkeletonCommand;
 
 class SkeletonServiceProvider extends ServiceProvider
 {
     public function boot()
     {
         if ($this->app->runningInConsole()) {
-            $this->publishes([
-                __DIR__ . '/../config/skeleton.php' => config_path('skeleton.php'),
-            ], 'config');
+            $this->publishes(
+                [
+                    __DIR__ . '/../config/skeleton.php' => config_path('skeleton.php'),
+                ],
+                'config'
+            );
 
-            $this->publishes([
-                __DIR__ . '/../resources/views' => base_path('resources/views/vendor/skeleton'),
-            ], 'views');
+            $this->publishes(
+                [
+                    __DIR__ . '/../resources/views' => base_path('resources/views/vendor/skeleton'),
+                ],
+                'views'
+            );
 
             $migrationFileName = 'create_skeleton_table.php';
             if (! $this->migrationFileExists($migrationFileName)) {
-                $this->publishes([
-                    __DIR__ . "/../database/migrations/{$migrationFileName}.stub" => database_path('migrations/' . date('Y_m_d_His', time()) . '_' . $migrationFileName),
-                ], 'migrations');
+                $this->publishes(
+                    [
+                        __DIR__ . "/../database/migrations/{$migrationFileName}.stub" => database_path('migrations/' . date('Y_m_d_His', time()) . '_' . $migrationFileName),
+                    ],
+                    'migrations'
+                );
             }
 
-            $this->commands([
-                SkeletonCommand::class,
-            ]);
+            $this->commands([SkeletonCommand::class,]);
         }
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'skeleton');

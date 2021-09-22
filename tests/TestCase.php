@@ -1,10 +1,10 @@
 <?php
 
-namespace PiruPius\Skeleton\Tests;
+namespace PiruPius\Uganda\Locale\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use PiruPius\Skeleton\SkeletonServiceProvider;
+use PiruPius\Uganda\Locale\SkeletonServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -34,7 +34,7 @@ class TestCase extends Orchestra
         ]);
 
         /*
-        include_once __DIR__.'/../database/migrations/create_skeleton_table.php.stub';
+        include_once __DIR__.'/../database/migrations/create_uganda_administrative_units_table.php.stub';
         (new \CreatePackageTable())->up();
         */
     }
