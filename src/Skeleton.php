@@ -1,6 +1,6 @@
 <?php
 
-namespace PiruPius\Uganda\Locale;
+namespace Pirumart\Uganda\Locale;
 
 class Skeleton
 {

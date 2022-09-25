@@ -11,7 +11,7 @@
          verbose="true"
 >
     <testsuites>
-        <testsuite name="PiruPius Test Suite">
+        <testsuite name="Pirumart Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>

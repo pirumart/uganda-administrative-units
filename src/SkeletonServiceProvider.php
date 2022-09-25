@@ -1,9 +1,9 @@
 <?php
 
-namespace PiruPius\Uganda\Locale;
+namespace Pirumart\Uganda\Locale;
 
 use Illuminate\Support\ServiceProvider;
-use PiruPius\Uganda\Locale\Commands\SkeletonCommand;
+use Pirumart\Uganda\Locale\Commands\SkeletonCommand;
 
 class SkeletonServiceProvider extends ServiceProvider
 {

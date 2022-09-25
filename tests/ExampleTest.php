@@ -1,6 +1,6 @@
 <?php
 
-namespace PiruPius\Uganda\Locale\Tests;
+namespace Pirumart\Uganda\Locale\Tests;
 
 class ExampleTest extends TestCase
 {

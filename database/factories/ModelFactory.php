@@ -1,6 +1,6 @@
 <?php
 
-namespace PiruPius\Uganda\Locale\Database\Factories;
+namespace Pirumart\Uganda\Locale\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 

@@ -1,39 +1,39 @@
 {
-    "name": "pirupius/uganda-administrative-units",
+    "name": "pirumart/uganda-administrative-units",
     "description": "Laravel Package for administrative units of Uganda (Regions, Districts, Counties, Sub-Counties, Parish and Villages)",
     "keywords": [
-        "pirupius",
+        "pirumart",
         "uganda-administrative-units"
     ],
-    "homepage": "https://github.com/pirupius/uganda-administrative-units",
+    "homepage": "https://github.com/pirumart/uganda-administrative-units",
     "license": "MIT",
     "authors": [
         {
             "name": "Rubangakene Pius",
             "email": "piruville@gmail.com",
-            "homepage": "https://github.com/pirupius",
+            "homepage": "https://github.com/pirumart",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": "^7.1",
+        "php": "^7.1 || ^8.0",
         "illuminate/contracts": "^8.0"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.16",
+        "friendsofphp/php-cs-fixer": "^3.2",
         "orchestra/testbench": "^6.0",
         "phpunit/phpunit": "^9.3",
-        "vimeo/psalm": "^3.11"
+        "vimeo/psalm": "^4.10"
     },
     "autoload": {
         "psr-4": {
-            "PiruPius\\Skeleton\\": "src",
-            "PiruPius\\Skeleton\\Database\\Factories\\": "database/factories"
+            "Pirumart\\Skeleton\\": "src",
+            "Pirumart\\Skeleton\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "PiruPius\\Skeleton\\Tests\\": "tests"
+            "Pirumart\\Skeleton\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -48,10 +48,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "PiruPius\\Skeleton\\SkeletonServiceProvider"
+                "Pirumart\\Skeleton\\SkeletonServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "PiruPius\\Skeleton\\SkeletonFacade"
+                "Skeleton": "Pirumart\\Skeleton\\SkeletonFacade"
             }
         }
     },

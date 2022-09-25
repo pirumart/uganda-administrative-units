@@ -31,7 +31,7 @@ author_username=$(ask_question "Author username" "$username_guess")
 current_directory=$(pwd)
 folder_name=$(basename "$current_directory")
 
-vendor_name_unsantized=$(ask_question "Vendor name" "PiruPius")
+vendor_name_unsantized=$(ask_question "Vendor name" "Pirumart")
 package_name=$(ask_question "Package name" "$folder_name")
 package_description=$(ask_question "Package description" "")
 
@@ -48,7 +48,7 @@ vendor_name_lowercase=`echo "$vendor_name_unsantized" | tr '[:upper:]' '[:lower:
 package_name_underscore=`echo "-$package_name-" | tr '-' '_'`
 
 echo
-files=$(grep -E -r -l -i ":author|:vendor|:package|PiruPius|skeleton" --exclude-dir=vendor ./*  | grep -v "$script_name")
+files=$(grep -E -r -l -i ":author|:vendor|:package|Pirumart|skeleton" --exclude-dir=vendor ./*  | grep -v "$script_name")
 
 echo "This script will replace the above values in all relevant files in the project directory."
 if ! confirm "Modify files?" ; then
@@ -66,7 +66,7 @@ for file in $files ; do
     | sed "s/:author_email/$author_email/g" \
     | sed "s/:vendor_name/$vendor_name_lowercase/g" \
     | sed "s/:package_name/$package_name/g" \
-    | sed "s/PiruPius/$vendor_name/g" \
+    | sed "s/Pirumart/$vendor_name/g" \
     | sed "s/_skeleton_/$package_name_underscore/g" \
     | sed "s/skeleton/$package_name/g" \
     | sed "s/Skeleton/$class_name/g" \

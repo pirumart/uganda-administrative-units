@@ -1,12 +1,12 @@
 <?php
 
-namespace PiruPius\Uganda\Locale\Commands;
+namespace Pirumart\Uganda\Locale\Commands;
 
 use Illuminate\Console\Command;
 
 class SkeletonCommand extends Command
 {
-    public $signature = 'pirupius:uganda-locale';
+    public $signature = 'pirumart:uganda-locale';
 
     public $description = 'My command';
 

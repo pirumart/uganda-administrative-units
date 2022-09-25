@@ -1,10 +1,10 @@
 <?php
 
-namespace PiruPius\Uganda\Locale\Tests;
+namespace Pirumart\Uganda\Locale\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use PiruPius\Uganda\Locale\SkeletonServiceProvider;
+use Pirumart\Uganda\Locale\SkeletonServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -13,7 +13,7 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'PiruPius\\Skeleton\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'Pirumart\\Skeleton\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
     }
 

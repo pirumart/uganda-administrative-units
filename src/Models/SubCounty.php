@@ -1,6 +1,6 @@
 <?php
 
-namespace PiruPius\Uganda\Locale\Models;
+namespace Pirumart\Uganda\Locale\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
