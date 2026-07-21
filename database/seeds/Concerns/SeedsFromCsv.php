@@ -1,5 +1,9 @@
 <?php
 
+namespace Pirumart\Uganda\Locale\Database\Seeders\Concerns;
+
+use Illuminate\Support\Facades\DB;
+
 trait SeedsFromCsv
 {
     protected function seedFromCsv(string $table, string $csvPath, int $chunkSize = 500)

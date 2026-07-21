@@ -28,7 +28,8 @@
     "autoload": {
         "psr-4": {
             "Pirumart\\Uganda\\Locale\\": "src",
-            "Pirumart\\Uganda\\Locale\\Database\\Factories\\": "database/factories"
+            "Pirumart\\Uganda\\Locale\\Database\\Factories\\": "database/factories",
+            "Pirumart\\Uganda\\Locale\\Database\\Seeders\\": "database/seeds"
         }
     },
     "autoload-dev": {

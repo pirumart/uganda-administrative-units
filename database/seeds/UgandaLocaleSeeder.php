@@ -1,5 +1,7 @@
 <?php
 
+namespace Pirumart\Uganda\Locale\Database\Seeders;
+
 use Illuminate\Database\Seeder;
 
 class UgandaLocaleSeeder extends Seeder
