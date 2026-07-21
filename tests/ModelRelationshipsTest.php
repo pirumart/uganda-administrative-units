@@ -58,12 +58,20 @@ class ModelRelationshipsTest extends TestCase
         return compact('region', 'district', 'county', 'subCounty', 'parish', 'village');
     }
 
-    /** @test */
+    /**
+     * District has both a `region` column (the region name string) and a
+     * `region()` relation. Eloquent's attribute accessor always wins over
+     * the relation for magic property access, so `$district->region` is
+     * the string column, never the related model - the relation must be
+     * called explicitly.
+     *
+     * @test
+     */
     public function district_belongs_to_its_region()
     {
         $data = $this->seedFullHierarchy();
 
-        $this->assertTrue($data['region']->is($data['district']->region));
+        $this->assertTrue($data['region']->is($data['district']->region()->first()));
     }
 
     /** @test */
