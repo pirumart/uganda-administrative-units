@@ -9,7 +9,7 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Rubangakene Pius",
+            "name": "Pius Rubangakene",
             "email": "piruville@gmail.com",
             "homepage": "https://github.com/pirumart",
             "role": "Developer"
@@ -27,13 +27,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Pirumart\\Skeleton\\": "src",
-            "Pirumart\\Skeleton\\Database\\Factories\\": "database/factories"
+            "Pirumart\\Uganda\\Locale\\": "src",
+            "Pirumart\\Uganda\\Locale\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Pirumart\\Skeleton\\Tests\\": "tests"
+            "Pirumart\\Uganda\\Locale\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -48,10 +48,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Pirumart\\Skeleton\\SkeletonServiceProvider"
+                "Pirumart\\Uganda\\Locale\\SkeletonServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "Pirumart\\Skeleton\\SkeletonFacade"
+                "Skeleton": "Pirumart\\Uganda\\Locale\\SkeletonFacade"
             }
         }
     },
