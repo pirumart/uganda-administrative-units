@@ -11,13 +11,13 @@ use Pirumart\Uganda\Locale\Database\Seeders\VillageTableSeeder;
 it('inserts every row via the region seeder', function () {
     (new RegionTableSeeder)->run();
 
-    expect(DB::table('regions')->count())->toBe(14);
+    expect(DB::table('regions')->count())->toBe(17);
 });
 
 it('inserts every row via the district seeder', function () {
     (new DistrictTableSeeder)->run();
 
-    expect(DB::table('districts')->count())->toBe(124);
+    expect(DB::table('districts')->count())->toBe(146);
 });
 
 it('inserts every row via the county seeder', function () {
