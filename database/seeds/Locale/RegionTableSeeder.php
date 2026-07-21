@@ -2,8 +2,12 @@
 
 use Illuminate\Database\Seeder;
 
+require_once __DIR__ . '/Concerns/SeedsFromCsv.php';
+
 class RegionTableSeeder extends Seeder
 {
+    use SeedsFromCsv;
+
     /**
      * Run the database seeds.
      *
@@ -11,21 +15,6 @@ class RegionTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('regions')->insert(
-            ['region' => 'Central', 'sub_region' => 'Buganda'],
-            ['region' => 'Eastern', 'sub_region' => 'Busoga'],
-            ['region' => 'Eastern', 'sub_region' => 'Bukedi'],
-            ['region' => 'Eastern', 'sub_region' => 'Teso'],
-            ['region' => 'Eastern', 'sub_region' => 'Bugisu'],
-            ['region' => 'Eastern', 'sub_region' => 'Sebei'],
-            ['region' => 'Northern', 'sub_region' => 'Acholi'],
-            ['region' => 'Northern', 'sub_region' => 'Lango'],
-            ['region' => 'Northern', 'sub_region' => 'West Nile'],
-            ['region' => 'Northern', 'sub_region' => 'Karamoja'],
-            ['region' => 'Western', 'sub_region' => 'Rwenzori'],
-            ['region' => 'Western', 'sub_region' => 'Bunyoro'],
-            ['region' => 'Western', 'sub_region' => 'Ankole'],
-            ['region' => 'Western', 'sub_region' => 'Kigezi']
-        );
+        $this->seedFromCsv('regions', __DIR__ . '/../../data/regions.csv');
     }
 }
