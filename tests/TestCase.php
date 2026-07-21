@@ -13,7 +13,7 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Pirumart\\Skeleton\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'Pirumart\\Uganda\\Locale\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
     }
 
@@ -33,9 +33,7 @@ class TestCase extends Orchestra
             'prefix' => '',
         ]);
 
-        /*
         include_once __DIR__.'/../database/migrations/create_uganda_administrative_units_table.php.stub';
-        (new \CreatePackageTable())->up();
-        */
+        (new \CreateUgandaAdministrativeUnitsTable())->up();
     }
 }
