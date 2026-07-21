@@ -24,7 +24,7 @@ class SkeletonServiceProvider extends ServiceProvider
                 'views'
             );
 
-            $migrationFileName = 'create_skeleton_table.php';
+            $migrationFileName = 'create_uganda_administrative_units_table.php';
             if (! $this->migrationFileExists($migrationFileName)) {
                 $this->publishes(
                     [
