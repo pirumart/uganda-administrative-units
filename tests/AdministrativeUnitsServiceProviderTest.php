@@ -12,7 +12,7 @@ class AdministrativeUnitsServiceProviderTest extends TestCase
     {
         Artisan::call('vendor:publish', [
             '--provider' => AdministrativeUnitsServiceProvider::class,
-            '--tag' => 'migrations',
+            '--tag' => 'administrative-units-migrations',
             '--force' => true,
         ]);
 
