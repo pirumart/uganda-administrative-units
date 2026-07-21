@@ -12,21 +12,21 @@ class County extends Model
 
     public function district()
     {
-        return $this->belongsTo(District::class);
+        return $this->belongsTo(District::class, 'district_code', 'district_code');
     }
 
     public function sub_counties()
     {
-        return $this->hasMany(SubCounty::class);
+        return $this->hasMany(SubCounty::class, 'county_code', 'county_code');
     }
 
     public function parishes()
     {
-        return $this->hasMany(Parish::class);
+        return $this->hasMany(Parish::class, 'county_code', 'county_code');
     }
 
     public function villages()
     {
-        return $this->hasMany(Village::class);
+        return $this->hasMany(Village::class, 'county_code', 'county_code');
     }
 }

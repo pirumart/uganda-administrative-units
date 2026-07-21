@@ -10,8 +10,8 @@ class Region extends Model
 
     protected $fillable = ['region', 'sub_region'];
 
-    public function counties()
+    public function districts()
     {
-        return $this->hasMany(District::class);
+        return $this->hasMany(District::class, 'region', 'region');
     }
 }

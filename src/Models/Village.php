@@ -19,21 +19,21 @@ class Village extends Model
 
     public function district()
     {
-        return $this->belongsTo(District::class);
+        return $this->belongsTo(District::class, 'district_code', 'district_code');
     }
 
     public function county()
     {
-        return $this->belongsTo(County::class);
+        return $this->belongsTo(County::class, 'county_code', 'county_code');
     }
 
     public function sub_county()
     {
-        return $this->belongsTo(SubCounty::class);
+        return $this->belongsTo(SubCounty::class, 'sub_county_code', 'sub_county_code');
     }
 
     public function parish()
     {
-        return $this->belongsTo(Parish::class);
+        return $this->belongsTo(Parish::class, 'parish_code', 'parish_code');
     }
 }
