@@ -3,23 +3,23 @@
 namespace Pirumart\Uganda\Locale;
 
 use Illuminate\Support\ServiceProvider;
-use Pirumart\Uganda\Locale\Commands\SkeletonCommand;
+use Pirumart\Uganda\Locale\Commands\SeedAdministrativeUnitsCommand;
 
-class SkeletonServiceProvider extends ServiceProvider
+class AdministrativeUnitsServiceProvider extends ServiceProvider
 {
     public function boot()
     {
         if ($this->app->runningInConsole()) {
             $this->publishes(
                 [
-                    __DIR__ . '/../config/skeleton.php' => config_path('skeleton.php'),
+                    __DIR__ . '/../config/administrative-units.php' => config_path('administrative-units.php'),
                 ],
                 'config'
             );
 
             $this->publishes(
                 [
-                    __DIR__ . '/../resources/views' => base_path('resources/views/vendor/skeleton'),
+                    __DIR__ . '/../resources/views' => base_path('resources/views/vendor/administrative-units'),
                 ],
                 'views'
             );
@@ -34,15 +34,15 @@ class SkeletonServiceProvider extends ServiceProvider
                 );
             }
 
-            $this->commands([SkeletonCommand::class,]);
+            $this->commands([SeedAdministrativeUnitsCommand::class,]);
         }
 
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'skeleton');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'administrative-units');
     }
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/skeleton.php', 'skeleton');
+        $this->mergeConfigFrom(__DIR__ . '/../config/administrative-units.php', 'administrative-units');
     }
 
     public static function migrationFileExists(string $migrationFileName): bool

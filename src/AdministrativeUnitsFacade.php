@@ -5,12 +5,12 @@ namespace Pirumart\Uganda\Locale;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Pirumart\Uganda\Locale\Skeleton
+ * @see \Pirumart\Uganda\Locale\AdministrativeUnits
  */
-class SkeletonFacade extends Facade
+class AdministrativeUnitsFacade extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'skeleton';
+        return 'administrative-units';
     }
 }

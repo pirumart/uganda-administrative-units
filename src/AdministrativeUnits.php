@@ -2,6 +2,6 @@
 
 namespace Pirumart\Uganda\Locale;
 
-class Skeleton
+class AdministrativeUnits
 {
 }

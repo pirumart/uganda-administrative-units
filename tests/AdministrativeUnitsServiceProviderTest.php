@@ -3,15 +3,15 @@
 namespace Pirumart\Uganda\Locale\Tests;
 
 use Illuminate\Support\Facades\Artisan;
-use Pirumart\Uganda\Locale\SkeletonServiceProvider;
+use Pirumart\Uganda\Locale\AdministrativeUnitsServiceProvider;
 
-class SkeletonServiceProviderTest extends TestCase
+class AdministrativeUnitsServiceProviderTest extends TestCase
 {
     /** @test */
     public function it_publishes_the_migration_stub_under_the_expected_filename()
     {
         Artisan::call('vendor:publish', [
-            '--provider' => SkeletonServiceProvider::class,
+            '--provider' => AdministrativeUnitsServiceProvider::class,
             '--tag' => 'migrations',
             '--force' => true,
         ]);

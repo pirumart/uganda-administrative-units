@@ -49,10 +49,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Pirumart\\Uganda\\Locale\\SkeletonServiceProvider"
+                "Pirumart\\Uganda\\Locale\\AdministrativeUnitsServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "Pirumart\\Uganda\\Locale\\SkeletonFacade"
+                "AdministrativeUnits": "Pirumart\\Uganda\\Locale\\AdministrativeUnitsFacade"
             }
         }
     },
