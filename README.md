@@ -18,7 +18,7 @@ composer require pirumart/uganda-administrative-units
 Publish and run the migration with:
 
 ```bash
-php artisan vendor:publish --provider="Pirumart\Uganda\Locale\AdministrativeUnitsServiceProvider" --tag="migrations"
+php artisan vendor:publish --provider="Pirumart\Uganda\Locale\AdministrativeUnitsServiceProvider" --tag="administrative-units-migrations"
 php artisan migrate
 ```
 
