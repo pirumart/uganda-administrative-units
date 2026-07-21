@@ -18,7 +18,7 @@ composer require pirumart/uganda-administrative-units
 Publish and run the migration with:
 
 ```bash
-php artisan vendor:publish --provider="Pirumart\Uganda\Locale\SkeletonServiceProvider" --tag="migrations"
+php artisan vendor:publish --provider="Pirumart\Uganda\Locale\AdministrativeUnitsServiceProvider" --tag="migrations"
 php artisan migrate
 ```
 
@@ -67,24 +67,28 @@ $district->region()->first();
 
 ### Seed data
 
-`database/seeds/Locale/` contains a seeder per table (`RegionTableSeeder`,
+`database/seeds/` contains a seeder per table (`RegionTableSeeder`,
 `DistrictTableSeeder`, etc.), backed by the real Uganda administrative data in
 `database/data/*.csv` (14 regions, 124 districts, 282 counties, 1972
 sub-counties, 9583 parishes, 31143 villages). `UgandaLocaleSeeder` runs all six
 in hierarchy order.
 
-These seeders aren't currently wired into the package's autoloading or a
-console command - `database/seeds` isn't part of the `composer.json` PSR-4
-map, so consumers need to `require` the files directly, e.g.:
+The easiest way to populate the tables is the console command:
+
+```bash
+php artisan uganda-administrative-units:seed
+```
+
+Or run `UgandaLocaleSeeder` directly - it's autoloaded under
+`Pirumart\Uganda\Locale\Database\Seeders`:
 
 ```php
-require base_path('vendor/pirumart/uganda-administrative-units/database/seeds/UgandaLocaleSeeder.php');
+use Pirumart\Uganda\Locale\Database\Seeders\UgandaLocaleSeeder;
+
 (new UgandaLocaleSeeder())->run();
 ```
 
-Wiring this up properly (autoload registration, a console command, or a
-documented publish step) is tracked as follow-up work. `database/factories/ModelFactory.php`
-also has no factories defined yet.
+`database/factories/ModelFactory.php` has no factories defined yet.
 
 ## Testing
 

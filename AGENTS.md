@@ -4,10 +4,13 @@ Instructions for coding agents (Claude Code, etc.) working in this repository.
 
 ## What this is
 
-A Laravel package scaffolded from `spatie/package-skeleton-laravel`, providing
-Eloquent models/migrations for Uganda's administrative hierarchy: Region →
-District → County → Sub-County → Parish → Village. The skeleton rename was
-never fully finished - see "Known remaining work" below.
+A Laravel package, originally scaffolded from `spatie/package-skeleton-laravel`,
+providing Eloquent models/migrations/seeders for Uganda's administrative
+hierarchy: Region → District → County → Sub-County → Parish → Village. The
+skeleton rename is finished - the main class/provider/facade/command are
+`AdministrativeUnits`/`AdministrativeUnitsServiceProvider`/
+`AdministrativeUnitsFacade`/`SeedAdministrativeUnitsCommand` under
+`Pirumart\Uganda\Locale`.
 
 ## Commit conventions
 
@@ -33,30 +36,19 @@ never fully finished - see "Known remaining work" below.
 ## Known remaining work (not yet done)
 
 These were identified in a full audit against `spatie/package-skeleton-laravel`
-and `spatie/package-skeleton-php` but are out of scope for the namespace/
-relationship bug fixes already completed:
+and `spatie/package-skeleton-php` but are out of scope for the fixes already
+completed:
 
-1. **Finish the skeleton rename.** `README.md`/`AGENTS.md` are done, but
-   `.github/CONTRIBUTING.md`, `LICENSE.md`, and the `1.0.0` entry in
-   `CHANGELOG.md` still contain `:vendor_name`/`:package_name`/`:author_name`
-   placeholders. Classes are still literally named `Skeleton`,
-   `SkeletonServiceProvider`, `SkeletonFacade`, `SkeletonCommand`; `config/skeleton.php`
-   is likewise unrenamed. `configure-skeleton.sh` is dead weight at this
-   point (hand-edits have already diverged from what it expects) - delete
-   it rather than run it.
-2. **Toolchain modernization.** This package still targets PHP ^7.1/^8.0 and
+1. **Toolchain modernization.** This package still targets PHP ^7.1/^8.0 and
    Laravel 8 only, uses Psalm + legacy php-cs-fixer + PHPUnit with
    `/** @test */` annotations, and CI workflows pinned to `actions/checkout@v2`.
    Current spatie skeletons use PHP ^8.4, Laravel 11-13, PHPStan/Larastan,
    Laravel Pint, Pest, and `spatie/laravel-package-tools` in the service
    provider (`PackageServiceProvider` + fluent `configurePackage()`).
-3. **Seeders aren't wired into autoload/console.** `database/seeds/Locale/`
-   has a real seeder per table backed by `database/data/*.csv` (converted from
-   hardcoded PHP arrays - see git log), but `database/seeds` isn't in the
-   `composer.json` PSR-4 map and there's no console command or publish step
-   exposing them, so consumers currently have to `require` the files by hand.
-   `database/factories/ModelFactory.php` also has no factories defined.
-4. **`District::region()` naming collision.** `District` has both a `region`
+2. **`database/factories/ModelFactory.php` has no factories defined.** Not
+   needed for the seed-data workflow, but would help anyone writing tests
+   against these models without the full CSV datasets.
+3. **`District::region()` naming collision.** `District` has both a `region`
    string column and a `region()` relation. Eloquent's attribute accessor
    wins over same-named relations for magic property access, so
    `$district->region` returns the string, not the model - always call
@@ -64,6 +56,12 @@ relationship bug fixes already completed:
    choice (natural keys throughout), not something to silently work around;
    if it's ever revisited, it needs a real decision (rename the column vs.
    rename the relation) rather than a quick patch.
+4. **The `AdministrativeUnits`/`AdministrativeUnitsFacade` pair is an empty
+   placeholder.** It's the renamed-but-otherwise-untouched skeleton utility
+   class/facade - it holds no real behavior and this package's actual API is
+   the Eloquent models. Worth a decision (remove entirely vs. give it a real
+   purpose) rather than carrying it forward indefinitely just because it's
+   now correctly named.
 
 ## Key files to understand the domain
 
@@ -75,13 +73,20 @@ relationship bug fixes already completed:
   for the fix that added these).
 - `tests/ModelRelationshipsTest.php` - exercises every relation across the
   full hierarchy; the reference example for how they're expected to behave.
-- `database/seeds/Locale/*TableSeeder.php` + `database/seeds/Locale/Concerns/SeedsFromCsv.php` -
-  each seeder reads its table's `database/data/*.csv` and inserts in chunks.
-  If you need to regenerate a CSV from a legacy PHP-array seeder again, don't
-  hand-parse a multi-megabyte file - use a sandboxed extraction script that
-  stubs the `DB` facade to capture rows via a variadic parameter (safe even
-  against the old `insert($row1, $row2, ...)` multi-argument bug). See git
-  log for the approach used to convert these.
+- `database/seeds/*TableSeeder.php` + `database/seeds/Concerns/SeedsFromCsv.php` -
+  namespaced under `Pirumart\Uganda\Locale\Database\Seeders` and autoloaded
+  via composer.json's PSR-4 map. Each seeder reads its table's
+  `database/data/*.csv` and inserts in chunks. If you need to regenerate a
+  CSV from a legacy PHP-array seeder again, don't hand-parse a multi-megabyte
+  file - use a sandboxed extraction script that stubs the `DB` facade to
+  capture rows via a variadic parameter (safe even against the old
+  `insert($row1, $row2, ...)` multi-argument bug). See git log for the
+  approach used to convert these.
+- `src/Commands/SeedAdministrativeUnitsCommand.php` - the
+  `uganda-administrative-units:seed` artisan command, registered in
+  `AdministrativeUnitsServiceProvider`; runs `UgandaLocaleSeeder`.
 - `tests/SeederTest.php` - one test per table asserting the full CSV row
   count actually gets inserted; the regression test for the multi-argument
   `insert()` bug.
+- `tests/SeedAdministrativeUnitsCommandTest.php` - exercises the artisan
+  command end to end.

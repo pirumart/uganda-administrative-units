@@ -18,6 +18,12 @@ All notable changes to `uganda-administrative-units` will be documented in this 
 ### Changed
 
 - Converted all six table seeders from hardcoded PHP array literals (up to 4.6MB per file) to a shared `SeedsFromCsv` trait that reads `database/data/*.csv` and inserts in chunks of 500. The data now lives in `database/data/*.csv`, is 5-6x smaller, and is reviewable/diffable in a way the original files weren't.
+- Moved `database/seeds/Locale/*.php` to `database/seeds/*.php` and namespaced every seeder (plus `SeedsFromCsv`) under `Pirumart\Uganda\Locale\Database\Seeders`, with a matching PSR-4 entry in `composer.json`. Seeders are now autoloadable directly instead of requiring the files by hand.
+- Finished the `spatie/package-skeleton-laravel` rename that was left half-done: `Skeleton` → `AdministrativeUnits`, `SkeletonServiceProvider` → `AdministrativeUnitsServiceProvider`, `SkeletonFacade` → `AdministrativeUnitsFacade` (accessor `administrative-units`), `config/skeleton.php` → `config/administrative-units.php`, and the published views/config paths to match. Removed `configure-skeleton.sh`, which was dead weight after hand-edits had already diverged from what it expected.
+
+### Added
+
+- `SeedAdministrativeUnitsCommand` (`php artisan uganda-administrative-units:seed`), replacing the placeholder `SkeletonCommand` that did nothing. Runs `UgandaLocaleSeeder` to populate all six tables.
 
 ### Tests
 
@@ -25,11 +31,9 @@ All notable changes to `uganda-administrative-units` will be documented in this 
 - Added a full relationship test suite (`ModelRelationshipsTest`) covering every `belongsTo`/`hasMany` across the six models, seeded through an in-memory SQLite database.
 - Enabled the migration in the test environment (`TestCase::getEnvironmentSetUp`), which was previously commented out and referenced a nonexistent class name.
 - Added `SeederTest`, one test per table, asserting the full expected row count is inserted.
+- Added `SeedAdministrativeUnitsCommandTest`, exercising the new artisan command end to end.
 
 ### Known limitations
 
 - `District` has both a `region` column (string) and a `region()` relation. Eloquent's attribute accessor always wins over the relation for magic property access, so `$district->region` returns the string, not the related model - call `$district->region()->first()` explicitly.
-
-## 1.0.0 - 202X-XX-XX
-
-- initial release
+- `AdministrativeUnits`/`AdministrativeUnitsFacade` are a renamed-but-empty placeholder carried over from the skeleton template; this package's real API is the Eloquent models.
