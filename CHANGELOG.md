@@ -20,6 +20,13 @@ All notable changes to `uganda-administrative-units` will be documented in this 
 - Converted all six table seeders from hardcoded PHP array literals (up to 4.6MB per file) to a shared `SeedsFromCsv` trait that reads `database/data/*.csv` and inserts in chunks of 500. The data now lives in `database/data/*.csv`, is 5-6x smaller, and is reviewable/diffable in a way the original files weren't.
 - Moved `database/seeds/Locale/*.php` to `database/seeds/*.php` and namespaced every seeder (plus `SeedsFromCsv`) under `Pirumart\Uganda\Locale\Database\Seeders`, with a matching PSR-4 entry in `composer.json`. Seeders are now autoloadable directly instead of requiring the files by hand.
 - Finished the `spatie/package-skeleton-laravel` rename that was left half-done: `Skeleton` → `AdministrativeUnits`, `SkeletonServiceProvider` → `AdministrativeUnitsServiceProvider`, `SkeletonFacade` → `AdministrativeUnitsFacade` (accessor `administrative-units`), `config/skeleton.php` → `config/administrative-units.php`, and the published views/config paths to match. Removed `configure-skeleton.sh`, which was dead weight after hand-edits had already diverged from what it expected.
+- Modernized the toolchain to match the current `spatie/package-skeleton-laravel` conventions:
+  - Bumped to PHP ^8.2 and `illuminate/contracts` ^12.0 (Laravel 12 only - Laravel 10.x/11.x currently carry unpatched security advisories, and Larastan/Pest's Laravel-plugin compatibility windows don't bridge the gap either way).
+  - Rewrote `AdministrativeUnitsServiceProvider` on `spatie/laravel-package-tools` (`PackageServiceProvider` + fluent `configurePackage()`), dropping the manual `publishes()`/`mergeConfigFrom()`/`migrationFileExists()` boilerplate. The migration publish tag changed from `migrations` to `administrative-units-migrations` (package-tools' naming convention).
+  - Swapped `vimeo/psalm` for `larastan/larastan` (added `phpstan.neon.dist`, level 5, passes clean) and `friendsofphp/php-cs-fixer` for `laravel/pint` (removed `.php_cs.dist`; ran `vendor/bin/pint` across the codebase).
+  - Migrated the test suite from PHPUnit class-based `/** @test */` annotations to Pest's functional `it()`/`expect()` style; added `tests/Pest.php`; removed the placeholder `ExampleTest`.
+  - Modernized `phpunit.xml.dist` to the current schema (dropped attributes removed since PHPUnit 10).
+  - Updated GitHub Actions: `run-tests.yml` now tests PHP 8.2/8.3/8.4 × Laravel 12 with `actions/checkout@v4` and runs Pest; replaced `psalm.yml` with `phpstan.yml`; replaced `php-cs-fixer.yml` with `fix-php-code-style-issues.yml` (Pint).
 
 ### Added
 

@@ -7,6 +7,8 @@
 A Laravel package providing Eloquent models and migrations for Uganda's administrative
 units hierarchy: Region → District → County → Sub-County → Parish → Village.
 
+Requires PHP ^8.2 and Laravel 12.
+
 ## Installation
 
 You can install the package via composer:
@@ -94,6 +96,13 @@ use Pirumart\Uganda\Locale\Database\Seeders\UgandaLocaleSeeder;
 
 ```bash
 composer test
+```
+
+Static analysis (PHPStan/Larastan) and code style (Laravel Pint) are also available:
+
+```bash
+composer analyse
+composer format
 ```
 
 ## Changelog

@@ -28,10 +28,21 @@ skeleton rename is finished - the main class/provider/facade/command are
   fails for the expected reason, then write the minimal code to pass. See
   `superpowers:test-driven-development` if using Claude Code with the
   Superpowers plugin.
-- Run the suite with `composer test` (`vendor/bin/phpunit`). Tests use an
+- Run the suite with `composer test` (`vendor/bin/pest`). Tests use an
   in-memory SQLite database via `tests/TestCase.php`, which loads the
-  migration stub directly - there's no need for a real database.
+  migration stub directly - there's no need for a real database. Tests are
+  written in Pest's functional `it()`/`expect()` style, not PHPUnit classes -
+  `tests/TestCase.php` stays a class (bound via `tests/Pest.php`'s `uses()`
+  call) but individual test files should not be.
+- `composer analyse` runs PHPStan/Larastan (level 5, `src/` only).
+  `composer format` runs Laravel Pint.
 - After changing `composer.json` autoload rules, run `composer dump-autoload`.
+- Requires PHP ^8.2 and Laravel 12 (`illuminate/contracts` ^12.0) - Laravel
+  10.x/11.x are not supported because they carry unpatched security
+  advisories as of this writing, and Larastan/Pest's Laravel plugin
+  compatibility windows don't bridge cleanly across majors either way. If revisiting this floor, re-run `composer update` and check `composer audit` before
+  committing to a wider range - don't assume the constraint math resolves
+  just because the version ranges look compatible on paper.
 
 ## Known remaining work (not yet done)
 
@@ -39,16 +50,10 @@ These were identified in a full audit against `spatie/package-skeleton-laravel`
 and `spatie/package-skeleton-php` but are out of scope for the fixes already
 completed:
 
-1. **Toolchain modernization.** This package still targets PHP ^7.1/^8.0 and
-   Laravel 8 only, uses Psalm + legacy php-cs-fixer + PHPUnit with
-   `/** @test */` annotations, and CI workflows pinned to `actions/checkout@v2`.
-   Current spatie skeletons use PHP ^8.4, Laravel 11-13, PHPStan/Larastan,
-   Laravel Pint, Pest, and `spatie/laravel-package-tools` in the service
-   provider (`PackageServiceProvider` + fluent `configurePackage()`).
-2. **`database/factories/ModelFactory.php` has no factories defined.** Not
+1. **`database/factories/ModelFactory.php` has no factories defined.** Not
    needed for the seed-data workflow, but would help anyone writing tests
    against these models without the full CSV datasets.
-3. **`District::region()` naming collision.** `District` has both a `region`
+2. **`District::region()` naming collision.** `District` has both a `region`
    string column and a `region()` relation. Eloquent's attribute accessor
    wins over same-named relations for magic property access, so
    `$district->region` returns the string, not the model - always call
@@ -56,7 +61,7 @@ completed:
    choice (natural keys throughout), not something to silently work around;
    if it's ever revisited, it needs a real decision (rename the column vs.
    rename the relation) rather than a quick patch.
-4. **The `AdministrativeUnits`/`AdministrativeUnitsFacade` pair is an empty
+3. **The `AdministrativeUnits`/`AdministrativeUnitsFacade` pair is an empty
    placeholder.** It's the renamed-but-otherwise-untouched skeleton utility
    class/facade - it holds no real behavior and this package's actual API is
    the Eloquent models. Worth a decision (remove entirely vs. give it a real
@@ -73,6 +78,8 @@ completed:
   for the fix that added these).
 - `tests/ModelRelationshipsTest.php` - exercises every relation across the
   full hierarchy; the reference example for how they're expected to behave.
+  Also where `seedFullHierarchy()`, a plain top-level function other test
+  files could reuse if they need the same seeded hierarchy, is defined.
 - `database/seeds/*TableSeeder.php` + `database/seeds/Concerns/SeedsFromCsv.php` -
   namespaced under `Pirumart\Uganda\Locale\Database\Seeders` and autoloaded
   via composer.json's PSR-4 map. Each seeder reads its table's
