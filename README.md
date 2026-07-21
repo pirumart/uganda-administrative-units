@@ -71,9 +71,14 @@ $district->region()->first();
 
 `database/seeds/` contains a seeder per table (`RegionTableSeeder`,
 `DistrictTableSeeder`, etc.), backed by the real Uganda administrative data in
-`database/data/*.csv` (14 regions, 124 districts, 282 counties, 1972
+`database/data/*.csv` (17 regions, 146 districts, 282 counties, 1972
 sub-counties, 9583 parishes, 31143 villages). `UgandaLocaleSeeder` runs all six
 in hierarchy order.
+
+District/region counts reflect Uganda's current administrative boundaries,
+including the 2020 municipal-to-city reform (10 new cities) and 12 districts
+created since. County/sub-county/parish/village counts are not yet
+reconciled to the same source - see [CHANGELOG](CHANGELOG.md).
 
 The easiest way to populate the tables is the console command:
 

@@ -57,16 +57,29 @@ leftover with no behavior).
   deliberate choice to avoid a breaking rename (the `region` column name is
   used across the migration, seeders, and CSV data) rather than an oversight
   - don't "fix" it without checking in first, since a future agent might read
-  the mismatched names and assume it's an unfixed bug.
+  the mismatched names and assume it's an unfixed bug. Note this is
+  independent of the region/sub_region *value* swap bug fixed below - that
+  was about `districts.csv` holding the wrong data in each column, not about
+  the naming collision itself, which is unchanged.
 - **No top-level `AdministrativeUnits` class/facade.** Removed rather than
   given a purpose - this package's API is the Eloquent models, not a
   container-bound utility class. Don't re-add one speculatively.
+- **`districts.csv`/`regions.csv` were reconciled against an authoritative
+  boundary source** (see git log for "reconcile district/region data"). If
+  you find another region/sub_region-swap-shaped bug or stale district list
+  elsewhere, check whether it's already been fixed here before re-deriving
+  from scratch.
 
 ## Known remaining work (not yet done)
 
-None from the original `spatie/package-skeleton-laravel` /
-`spatie/package-skeleton-php` audit - all identified items have been
-addressed.
+- **County/sub-county/parish/village data is not reconciled to current
+  administrative boundaries.** Only district/region were reconciled (see
+  above), because the available boundary source (`Uganda_Districts_NEW.json`,
+  a district-level GeoJSON) has no lower-level geometry. The 22 newly added
+  districts have no county/sub-county/parish/village rows at all - a
+  consumer seeding this package today will get villages for the old 124
+  districts but none for the new 22. Populating those would need a different
+  source (e.g. a parish- or village-level shapefile).
 
 ## Key files to understand the domain
 
@@ -104,3 +117,7 @@ addressed.
   correctly on all six models (each uses the `HasFactory` trait).
 - `tests/ModelFactoriesTest.php` - one test per model asserting
   `::factory()->create()` persists successfully.
+- `tests/DistrictRegionRelationWithRealDataTest.php` - regression test for
+  the region/sub_region swap fix; seeds the real CSVs (not a hand-crafted
+  fixture) to catch data-shape bugs the fixture-based
+  `ModelRelationshipsTest` can't see.

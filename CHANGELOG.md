@@ -14,6 +14,7 @@ All notable changes to `uganda-administrative-units` will be documented in this 
 - Removed the dead `use DB;` statement from all six table seeders (a compile-time no-op for non-namespaced names that becomes a hard error under this project's PHPUnit settings).
 - Fixed the `insert($row1, $row2, ...)` multi-argument bug in every `*TableSeeder` - `Illuminate\Database\Query\Builder::insert()` takes one array parameter, so PHP silently bound only the first row and discarded the rest with no error. Every seeder previously inserted exactly 1 row instead of its full dataset (14, 124, 282, 1972, 9583, and 31143 rows respectively).
 - Replaced incorrect global `unique()` constraints on `sub_county_code`, `parish_code`, and `village_code` in the migration with composite unique constraints on the full natural-key chain. Fixing the seeders exposed that these codes are local ordinals that reset per parent (e.g. `village_code` has only 61 distinct values across 31,143 real rows) rather than globally unique identifiers, so the old constraints failed against real data. Also dropped `unique()` from `county_name`, `sub_county_name`, `parish_name`, and `village_name`, which legitimately repeat across different parents.
+- Fixed `districts.csv`'s `region`/`sub_region` columns, which held swapped values relative to their own names and to `regions.csv` (e.g. APAC's `region` held `"Lango"` and `sub_region` held `"Northern"` - backwards). This meant `District::region()->first()` returned `null` against every real seeded district, even though it worked in `ModelRelationshipsTest`'s hand-crafted fixture (which seeds its own internally-consistent values and never exercised the mismatch). Re-derived both columns for all 146 districts from an authoritative boundary source (see "Changed" below).
 
 ### Changed
 
@@ -27,6 +28,9 @@ All notable changes to `uganda-administrative-units` will be documented in this 
   - Migrated the test suite from PHPUnit class-based `/** @test */` annotations to Pest's functional `it()`/`expect()` style; added `tests/Pest.php`; removed the placeholder `ExampleTest`.
   - Modernized `phpunit.xml.dist` to the current schema (dropped attributes removed since PHPUnit 10).
   - Updated GitHub Actions: `run-tests.yml` now tests PHP 8.2/8.3/8.4 × Laravel 12 with `actions/checkout@v4` and runs Pest; replaced `psalm.yml` with `phpstan.yml`; replaced `php-cs-fixer.yml` with `fix-php-code-style-issues.yml` (Pint).
+- Reconciled `database/data/districts.csv` and `regions.csv` against an authoritative district-boundary GeoJSON export, growing 124 → 146 districts and 14 → 17 regions (14 sub-regions unchanged, 3 added):
+  - Appended the 22 districts/cities the old data predates: 10 new cities from Uganda's 2020 municipal-to-city reform (Arua, Fort Portal, Gulu, Hoima, Jinja, Lira, Masaka, Mbale, Mbarara, Soroti) and 12 newer districts (Kalaki, Karenga, Kassanda, Kazo, Kikuube, Kitagwenda, Kwania, Madi Okollo, Nabilatuk, Obongi, Rwampara, Terego), with new codes 125–146 (alphabetical, for reproducibility). All 124 existing `district_code` values are unchanged, since `counties.csv`/`sub_counties.csv`/`parishes.csv`/`villages.csv` reference them.
+  - Added 3 new sub-regions to `regions.csv`: Kampala (Central), Madi (Northern, split from West Nile), Tooro (Western, split from Rwenzori) - chosen from the source's `New_SubReg` field specifically because it's compatible with the existing 14 sub-region names, unlike the source's alternate `Sub_Region` field (which merges Bugisu+Sebei into "Elgon" and splits Buganda into North/South).
 
 ### Added
 
@@ -41,6 +45,7 @@ All notable changes to `uganda-administrative-units` will be documented in this 
 - Added `SeederTest`, one test per table, asserting the full expected row count is inserted.
 - Added `SeedAdministrativeUnitsCommandTest`, exercising the new artisan command end to end.
 - Added `ModelFactoriesTest`, one test per model, asserting `::factory()->create()` persists successfully.
+- Added `DistrictRegionRelationWithRealDataTest`, seeding the real CSVs (not a hand-crafted fixture) to catch data-shape bugs the fixture-based `ModelRelationshipsTest` can't see - the regression test for the region/sub_region swap fix.
 
 ### Removed
 
@@ -49,3 +54,4 @@ All notable changes to `uganda-administrative-units` will be documented in this 
 ### Known limitations
 
 - `District` has both a `region` column (string) and a `region()` relation. Eloquent's attribute accessor always wins over the relation for magic property access, so `$district->region` returns the string, not the related model - call `$district->region()->first()` explicitly. This is a deliberate choice (avoids a breaking rename of a column used across the migration/seeders/CSV data), not an unfixed bug.
+- County/sub-county/parish/village data has not been reconciled to current administrative boundaries - only district/region were (the available boundary source is district-level only). The 22 newly added districts have no county/sub-county/parish/village rows.
