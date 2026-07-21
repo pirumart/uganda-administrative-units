@@ -57,10 +57,7 @@
         "laravel": {
             "providers": [
                 "Pirumart\\Uganda\\Locale\\AdministrativeUnitsServiceProvider"
-            ],
-            "aliases": {
-                "AdministrativeUnits": "Pirumart\\Uganda\\Locale\\AdministrativeUnitsFacade"
-            }
+            ]
         }
     },
     "minimum-stability": "stable"
