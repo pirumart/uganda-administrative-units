@@ -65,13 +65,26 @@ Call the relation explicitly instead:
 $district->region()->first();
 ```
 
-### Note on seed data
+### Seed data
 
-This package currently ships the schema and models only. `database/seeds/UgandaLocaleSeeder.php`
-references per-table seeder classes (e.g. `RegionTableSeeder`) that are not yet
-implemented, and `database/factories/ModelFactory.php` has no factories defined.
-Populating the tables with actual Uganda administrative data is tracked as
-follow-up work.
+`database/seeds/Locale/` contains a seeder per table (`RegionTableSeeder`,
+`DistrictTableSeeder`, etc.), backed by the real Uganda administrative data in
+`database/data/*.csv` (14 regions, 124 districts, 282 counties, 1972
+sub-counties, 9583 parishes, 31143 villages). `UgandaLocaleSeeder` runs all six
+in hierarchy order.
+
+These seeders aren't currently wired into the package's autoloading or a
+console command - `database/seeds` isn't part of the `composer.json` PSR-4
+map, so consumers need to `require` the files directly, e.g.:
+
+```php
+require base_path('vendor/pirumart/uganda-administrative-units/database/seeds/UgandaLocaleSeeder.php');
+(new UgandaLocaleSeeder())->run();
+```
+
+Wiring this up properly (autoload registration, a console command, or a
+documented publish step) is tracked as follow-up work. `database/factories/ModelFactory.php`
+also has no factories defined yet.
 
 ## Testing
 
