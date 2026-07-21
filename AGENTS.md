@@ -7,10 +7,12 @@ Instructions for coding agents (Claude Code, etc.) working in this repository.
 A Laravel package, originally scaffolded from `spatie/package-skeleton-laravel`,
 providing Eloquent models/migrations/seeders for Uganda's administrative
 hierarchy: Region → District → County → Sub-County → Parish → Village. The
-skeleton rename is finished - the main class/provider/facade/command are
-`AdministrativeUnits`/`AdministrativeUnitsServiceProvider`/
-`AdministrativeUnitsFacade`/`SeedAdministrativeUnitsCommand` under
-`Pirumart\Uganda\Locale`.
+skeleton rename is finished - the main provider/command are
+`AdministrativeUnitsServiceProvider`/`SeedAdministrativeUnitsCommand` under
+`Pirumart\Uganda\Locale`. This package's real API is the Eloquent models
+under `Pirumart\Uganda\Locale\Models`; there is no top-level
+`AdministrativeUnits` class or facade (removed - it was an empty skeleton
+leftover with no behavior).
 
 ## Commit conventions
 
@@ -44,29 +46,27 @@ skeleton rename is finished - the main class/provider/facade/command are
   committing to a wider range - don't assume the constraint math resolves
   just because the version ranges look compatible on paper.
 
+## Resolved decisions worth knowing
+
+- **`District::region()` naming collision is intentionally left as-is.**
+  `District` has both a `region` string column and a `region()` relation of
+  the same name. Eloquent's attribute accessor always wins over same-named
+  relations for magic property access, so `$district->region` returns the
+  string column, not the model - callers must call
+  `$district->region()->first()` explicitly for the relation. This was a
+  deliberate choice to avoid a breaking rename (the `region` column name is
+  used across the migration, seeders, and CSV data) rather than an oversight
+  - don't "fix" it without checking in first, since a future agent might read
+  the mismatched names and assume it's an unfixed bug.
+- **No top-level `AdministrativeUnits` class/facade.** Removed rather than
+  given a purpose - this package's API is the Eloquent models, not a
+  container-bound utility class. Don't re-add one speculatively.
+
 ## Known remaining work (not yet done)
 
-These were identified in a full audit against `spatie/package-skeleton-laravel`
-and `spatie/package-skeleton-php` but are out of scope for the fixes already
-completed:
-
-1. **`database/factories/ModelFactory.php` has no factories defined.** Not
-   needed for the seed-data workflow, but would help anyone writing tests
-   against these models without the full CSV datasets.
-2. **`District::region()` naming collision.** `District` has both a `region`
-   string column and a `region()` relation. Eloquent's attribute accessor
-   wins over same-named relations for magic property access, so
-   `$district->region` returns the string, not the model - always call
-   `$district->region()->first()` explicitly. This is a schema-level design
-   choice (natural keys throughout), not something to silently work around;
-   if it's ever revisited, it needs a real decision (rename the column vs.
-   rename the relation) rather than a quick patch.
-3. **The `AdministrativeUnits`/`AdministrativeUnitsFacade` pair is an empty
-   placeholder.** It's the renamed-but-otherwise-untouched skeleton utility
-   class/facade - it holds no real behavior and this package's actual API is
-   the Eloquent models. Worth a decision (remove entirely vs. give it a real
-   purpose) rather than carrying it forward indefinitely just because it's
-   now correctly named.
+None from the original `spatie/package-skeleton-laravel` /
+`spatie/package-skeleton-php` audit - all identified items have been
+addressed.
 
 ## Key files to understand the domain
 
@@ -97,3 +97,10 @@ completed:
   `insert()` bug.
 - `tests/SeedAdministrativeUnitsCommandTest.php` - exercises the artisan
   command end to end.
+- `database/factories/*Factory.php` - one factory per model, generating fake
+  codes/names via faker rather than depending on the CSV datasets. Naming
+  convention (`{Model}Factory`) is configured in
+  `TestCase::guessFactoryNamesUsing`, so `Model::factory()` resolves
+  correctly on all six models (each uses the `HasFactory` trait).
+- `tests/ModelFactoriesTest.php` - one test per model asserting
+  `::factory()->create()` persists successfully.

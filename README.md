@@ -90,7 +90,16 @@ use Pirumart\Uganda\Locale\Database\Seeders\UgandaLocaleSeeder;
 (new UgandaLocaleSeeder())->run();
 ```
 
-`database/factories/ModelFactory.php` has no factories defined yet.
+### Factories
+
+Each model has a factory for use in tests, generating fake codes/names
+instead of depending on the full CSV datasets:
+
+```php
+use Pirumart\Uganda\Locale\Models\Village;
+
+Village::factory()->create(); // a single fake village, no seeding required
+```
 
 ## Testing
 

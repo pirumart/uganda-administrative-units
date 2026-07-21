@@ -31,6 +31,7 @@ All notable changes to `uganda-administrative-units` will be documented in this 
 ### Added
 
 - `SeedAdministrativeUnitsCommand` (`php artisan uganda-administrative-units:seed`), replacing the placeholder `SkeletonCommand` that did nothing. Runs `UgandaLocaleSeeder` to populate all six tables.
+- Factories for all six models (`RegionFactory`, `DistrictFactory`, `CountyFactory`, `SubCountyFactory`, `ParishFactory`, `VillageFactory`), added `HasFactory` to each model, and replaced the commented-out `ModelFactory.php` placeholder. Lets tests create a unit or two via faker without seeding the full CSV datasets.
 
 ### Tests
 
@@ -39,8 +40,12 @@ All notable changes to `uganda-administrative-units` will be documented in this 
 - Enabled the migration in the test environment (`TestCase::getEnvironmentSetUp`), which was previously commented out and referenced a nonexistent class name.
 - Added `SeederTest`, one test per table, asserting the full expected row count is inserted.
 - Added `SeedAdministrativeUnitsCommandTest`, exercising the new artisan command end to end.
+- Added `ModelFactoriesTest`, one test per model, asserting `::factory()->create()` persists successfully.
+
+### Removed
+
+- `AdministrativeUnits`/`AdministrativeUnitsFacade` (and the corresponding `composer.json` `extra.laravel.aliases` entry) - a renamed-but-empty skeleton placeholder with no real behavior. This package's API is the Eloquent models; the service provider and command are unaffected.
 
 ### Known limitations
 
-- `District` has both a `region` column (string) and a `region()` relation. Eloquent's attribute accessor always wins over the relation for magic property access, so `$district->region` returns the string, not the related model - call `$district->region()->first()` explicitly.
-- `AdministrativeUnits`/`AdministrativeUnitsFacade` are a renamed-but-empty placeholder carried over from the skeleton template; this package's real API is the Eloquent models.
+- `District` has both a `region` column (string) and a `region()` relation. Eloquent's attribute accessor always wins over the relation for magic property access, so `$district->region` returns the string, not the related model - call `$district->region()->first()` explicitly. This is a deliberate choice (avoids a breaking rename of a column used across the migration/seeders/CSV data), not an unfixed bug.
