@@ -1,50 +1,81 @@
-# :package_description
+# Uganda Administrative Units
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/:vendor_name/:package_name.svg?style=flat-square)](https://packagist.org/packages/:vendor_name/:package_name)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/:vendor_name/:package_name/run-tests?label=tests)](https://github.com/:vendor_name/:package_name/actions?query=workflow%3Arun-tests+branch%3Amaster)
-[![Total Downloads](https://img.shields.io/packagist/dt/:vendor_name/:package_name.svg?style=flat-square)](https://packagist.org/packages/:vendor_name/:package_name)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/pirumart/uganda-administrative-units.svg?style=flat-square)](https://packagist.org/packages/pirumart/uganda-administrative-units)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/pirumart/uganda-administrative-units/run-tests.yml?branch=main&label=tests)](https://github.com/pirumart/uganda-administrative-units/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/pirumart/uganda-administrative-units.svg?style=flat-square)](https://packagist.org/packages/pirumart/uganda-administrative-units)
 
-**Note:** Run `./configure-skeleton` to get started, or manually replace  ```:author_name``` ```:author_username``` ```:author_email``` ```:vendor_name``` ```:package_name``` ```:package_description``` with their correct values in [README.md](README.md), [CHANGELOG.md](CHANGELOG.md), [CONTRIBUTING.md](.github/CONTRIBUTING.md), [LICENSE.md](LICENSE.md) and [composer.json](composer.json) files, then delete this line. You can also run `configure-skeleton.sh` to do this automatically.
-
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+A Laravel package providing Eloquent models and migrations for Uganda's administrative
+units hierarchy: Region → District → County → Sub-County → Parish → Village.
 
 ## Installation
 
 You can install the package via composer:
 
 ```bash
-composer require :vendor_name/:package_name
+composer require pirumart/uganda-administrative-units
 ```
 
-You can publish and run the migrations with:
+Publish and run the migration with:
 
 ```bash
 php artisan vendor:publish --provider="Pirumart\Uganda\Locale\SkeletonServiceProvider" --tag="migrations"
 php artisan migrate
 ```
 
-You can publish the config file with:
-```bash
-php artisan vendor:publish --provider="Pirumart\Uganda\Locale\SkeletonServiceProvider" --tag="config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
+This creates the `regions`, `districts`, `counties`, `sub_counties`, `parishes` and
+`villages` tables. All of them use natural business keys (e.g. `district_code`,
+`county_code`) rather than surrogate foreign keys.
 
 ## Usage
 
-``` php
-$skeleton = new Pirumart\Uganda\Locale();
-echo $skeleton->echoPhrase('Hello, Pirumart!');
+Each model exposes relations to its parent and child units in the hierarchy:
+
+```php
+use Pirumart\Uganda\Locale\Models\District;
+
+$district = District::where('district_code', 'D01')->first();
+
+$district->region()->first(); // parent Region
+$district->counties;          // child Counties
+$district->sub_counties;      // child SubCounties
+$district->parishes;          // child Parishes
+$district->villages;          // child Villages
 ```
+
+```php
+use Pirumart\Uganda\Locale\Models\Village;
+
+$village = Village::where('village_code', 'V01')->first();
+
+$village->district;    // parent District
+$village->county;      // parent County
+$village->sub_county;  // parent SubCounty
+$village->parish;      // parent Parish
+```
+
+### Known limitation: `District::region()`
+
+`District` has both a `region` column (the region name, stored as a string) and a
+`region()` relation method of the same name. Eloquent's attribute accessor always
+takes priority over a relation of the same name for magic property access, so
+`$district->region` returns the string column - **not** the related `Region` model.
+Call the relation explicitly instead:
+
+```php
+$district->region()->first();
+```
+
+### Note on seed data
+
+This package currently ships the schema and models only. `database/seeds/UgandaLocaleSeeder.php`
+references per-table seeder classes (e.g. `RegionTableSeeder`) that are not yet
+implemented, and `database/factories/ModelFactory.php` has no factories defined.
+Populating the tables with actual Uganda administrative data is tracked as
+follow-up work.
 
 ## Testing
 
-``` bash
+```bash
 composer test
 ```
 
@@ -54,7 +85,8 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## Contributing
 
-Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details. If you're a coding
+agent working on this repository, also read [AGENTS.md](AGENTS.md).
 
 ## License
 
