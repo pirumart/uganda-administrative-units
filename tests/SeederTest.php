@@ -15,7 +15,7 @@ class SeederTest extends TestCase
     /** @test */
     public function region_seeder_inserts_every_row()
     {
-        (new RegionTableSeeder())->run();
+        (new RegionTableSeeder)->run();
 
         $this->assertSame(14, DB::table('regions')->count());
     }
@@ -23,7 +23,7 @@ class SeederTest extends TestCase
     /** @test */
     public function district_seeder_inserts_every_row()
     {
-        (new DistrictTableSeeder())->run();
+        (new DistrictTableSeeder)->run();
 
         $this->assertSame(124, DB::table('districts')->count());
     }
@@ -31,7 +31,7 @@ class SeederTest extends TestCase
     /** @test */
     public function county_seeder_inserts_every_row()
     {
-        (new CountyTableSeeder())->run();
+        (new CountyTableSeeder)->run();
 
         $this->assertSame(282, DB::table('counties')->count());
     }
@@ -39,7 +39,7 @@ class SeederTest extends TestCase
     /** @test */
     public function sub_county_seeder_inserts_every_row()
     {
-        (new SubCountyTableSeeder())->run();
+        (new SubCountyTableSeeder)->run();
 
         $this->assertSame(1972, DB::table('sub_counties')->count());
     }
@@ -47,7 +47,7 @@ class SeederTest extends TestCase
     /** @test */
     public function parish_seeder_inserts_every_row()
     {
-        (new ParishTableSeeder())->run();
+        (new ParishTableSeeder)->run();
 
         $this->assertSame(9583, DB::table('parishes')->count());
     }
@@ -55,7 +55,7 @@ class SeederTest extends TestCase
     /** @test */
     public function village_seeder_inserts_every_row()
     {
-        (new VillageTableSeeder())->run();
+        (new VillageTableSeeder)->run();
 
         $this->assertSame(31143, DB::table('villages')->count());
     }

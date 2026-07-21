@@ -13,7 +13,7 @@ class SeedAdministrativeUnitsCommand extends Command
 
     public function handle()
     {
-        (new UgandaLocaleSeeder())->run();
+        (new UgandaLocaleSeeder)->run();
 
         $this->comment('Uganda administrative units seeded.');
 

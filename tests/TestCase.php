@@ -8,7 +8,7 @@ use Pirumart\Uganda\Locale\AdministrativeUnitsServiceProvider;
 
 class TestCase extends Orchestra
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -34,6 +34,6 @@ class TestCase extends Orchestra
         ]);
 
         include_once __DIR__.'/../database/migrations/create_uganda_administrative_units_table.php.stub';
-        (new \CreateUgandaAdministrativeUnitsTable())->up();
+        (new \CreateUgandaAdministrativeUnitsTable)->up();
     }
 }

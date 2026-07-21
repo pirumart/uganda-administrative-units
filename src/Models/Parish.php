@@ -13,7 +13,7 @@ class Parish extends Model
         'county_code',
         'sub_county_code',
         'parish_code',
-        'parish_name'
+        'parish_name',
     ];
 
     public function district()

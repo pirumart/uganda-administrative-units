@@ -5,7 +5,7 @@ namespace Pirumart\Uganda\Locale;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Pirumart\Uganda\Locale\AdministrativeUnits
+ * @see AdministrativeUnits
  */
 class AdministrativeUnitsFacade extends Facade
 {

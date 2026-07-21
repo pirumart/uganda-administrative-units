@@ -12,7 +12,7 @@ class SubCounty extends Model
         'district_code',
         'county_code',
         'sub_county_code',
-        'sub_county_name'
+        'sub_county_name',
     ];
 
     public function district()

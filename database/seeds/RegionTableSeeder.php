@@ -16,6 +16,6 @@ class RegionTableSeeder extends Seeder
      */
     public function run()
     {
-        $this->seedFromCsv('regions', __DIR__ . '/../data/regions.csv');
+        $this->seedFromCsv('regions', __DIR__.'/../data/regions.csv');
     }
 }

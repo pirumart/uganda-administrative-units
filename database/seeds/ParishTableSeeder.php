@@ -16,6 +16,6 @@ class ParishTableSeeder extends Seeder
      */
     public function run()
     {
-        $this->seedFromCsv('parishes', __DIR__ . '/../data/parishes.csv');
+        $this->seedFromCsv('parishes', __DIR__.'/../data/parishes.csv');
     }
 }

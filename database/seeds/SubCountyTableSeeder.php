@@ -16,6 +16,6 @@ class SubCountyTableSeeder extends Seeder
      */
     public function run()
     {
-        $this->seedFromCsv('sub_counties', __DIR__ . '/../data/sub_counties.csv');
+        $this->seedFromCsv('sub_counties', __DIR__.'/../data/sub_counties.csv');
     }
 }

@@ -2,6 +2,4 @@
 
 namespace Pirumart\Uganda\Locale;
 
-class AdministrativeUnits
-{
-}
+class AdministrativeUnits {}

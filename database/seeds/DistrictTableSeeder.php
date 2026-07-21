@@ -16,6 +16,6 @@ class DistrictTableSeeder extends Seeder
      */
     public function run()
     {
-        $this->seedFromCsv('districts', __DIR__ . '/../data/districts.csv');
+        $this->seedFromCsv('districts', __DIR__.'/../data/districts.csv');
     }
 }

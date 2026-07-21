@@ -16,6 +16,6 @@ class VillageTableSeeder extends Seeder
      */
     public function run()
     {
-        $this->seedFromCsv('villages', __DIR__ . '/../data/villages.csv');
+        $this->seedFromCsv('villages', __DIR__.'/../data/villages.csv');
     }
 }
