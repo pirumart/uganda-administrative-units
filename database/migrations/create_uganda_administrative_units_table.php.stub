@@ -30,16 +30,18 @@ class CreateUgandaAdministrativeUnitsTable extends Migration
         Schema::create('counties', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('district_code')->index();
-            $table->string('county_code')->index()->unique();
-            $table->string('county_name')->unique();
+            $table->string('county_code')->index();
+            $table->string('county_name')->index();
+            $table->unique(['district_code', 'county_code']);
         });
 
         Schema::create('sub_counties', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('district_code')->index();
             $table->string('county_code')->index();
-            $table->string('sub_county_code')->index()->unique();
-            $table->string('sub_county_name')->unique();
+            $table->string('sub_county_code')->index();
+            $table->string('sub_county_name')->index();
+            $table->unique(['district_code', 'county_code', 'sub_county_code']);
         });
 
         Schema::create('parishes', function (Blueprint $table) {
@@ -47,8 +49,9 @@ class CreateUgandaAdministrativeUnitsTable extends Migration
             $table->string('district_code')->index();
             $table->string('county_code')->index();
             $table->string('sub_county_code')->index();
-            $table->string('parish_code')->index()->unique();
-            $table->string('parish_name')->unique();
+            $table->string('parish_code')->index();
+            $table->string('parish_name')->index();
+            $table->unique(['district_code', 'county_code', 'sub_county_code', 'parish_code']);
         });
 
         Schema::create('villages', function (Blueprint $table) {
@@ -57,8 +60,9 @@ class CreateUgandaAdministrativeUnitsTable extends Migration
             $table->string('county_code')->index();
             $table->string('sub_county_code')->index();
             $table->string('parish_code')->index();
-            $table->string('village_code')->index()->unique();
-            $table->string('village_name')->unique();
+            $table->string('village_code')->index();
+            $table->string('village_name')->index();
+            $table->unique(['district_code', 'county_code', 'sub_county_code', 'parish_code', 'village_code']);
         });
     }
 
