@@ -2,6 +2,18 @@
 
 All notable changes to `uganda-administrative-units` will be documented in this file.
 
+## v1.0.0 - 2026-07-22
+
+### What's Changed
+
+TBD
+
+### New Contributors
+
+* @pirupius made their first contribution in https://github.com/pirumart/uganda-administrative-units/pull/1
+
+**Full Changelog**: https://github.com/pirumart/uganda-administrative-units/commits/v1.0.0
+
 ## Unreleased
 
 ### Fixed
@@ -28,9 +40,11 @@ All notable changes to `uganda-administrative-units` will be documented in this 
   - Migrated the test suite from PHPUnit class-based `/** @test */` annotations to Pest's functional `it()`/`expect()` style; added `tests/Pest.php`; removed the placeholder `ExampleTest`.
   - Modernized `phpunit.xml.dist` to the current schema (dropped attributes removed since PHPUnit 10).
   - Updated GitHub Actions: `run-tests.yml` now tests PHP 8.2/8.3/8.4 × Laravel 12 with `actions/checkout@v4` and runs Pest; replaced `psalm.yml` with `phpstan.yml`; replaced `php-cs-fixer.yml` with `fix-php-code-style-issues.yml` (Pint).
+  
 - Reconciled `database/data/districts.csv` and `regions.csv` against an authoritative district-boundary GeoJSON export, growing 124 → 146 districts and 14 → 17 regions (14 sub-regions unchanged, 3 added):
   - Appended the 22 districts/cities the old data predates: 10 new cities from Uganda's 2020 municipal-to-city reform (Arua, Fort Portal, Gulu, Hoima, Jinja, Lira, Masaka, Mbale, Mbarara, Soroti) and 12 newer districts (Kalaki, Karenga, Kassanda, Kazo, Kikuube, Kitagwenda, Kwania, Madi Okollo, Nabilatuk, Obongi, Rwampara, Terego), with new codes 125–146 (alphabetical, for reproducibility). All 124 existing `district_code` values are unchanged, since `counties.csv`/`sub_counties.csv`/`parishes.csv`/`villages.csv` reference them.
   - Added 3 new sub-regions to `regions.csv`: Kampala (Central), Madi (Northern, split from West Nile), Tooro (Western, split from Rwenzori) - chosen from the source's `New_SubReg` field specifically because it's compatible with the existing 14 sub-region names, unlike the source's alternate `Sub_Region` field (which merges Bugisu+Sebei into "Elgon" and splits Buganda into North/South).
+  
 
 ### Added
 
