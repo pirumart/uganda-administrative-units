@@ -1,6 +1,13 @@
 name: Fix PHP code style issues
 
-on: [push]
+on:
+  push:
+    paths:
+      - '**.php'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: write

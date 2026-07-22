@@ -7,8 +7,16 @@ on:
       - '.github/workflows/run-tests.yml'
       - 'phpunit.xml.dist'
       - 'composer.json'
+      - 'database/data/**'
   pull_request:
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   test:
