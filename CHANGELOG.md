@@ -2,19 +2,20 @@
 
 All notable changes to `uganda-administrative-units` will be documented in this file.
 
-## v1.0.0 - 2026-07-22
-
-### What's Changed
-
-TBD
-
-### New Contributors
-
-* @pirupius made their first contribution in https://github.com/pirumart/uganda-administrative-units/pull/1
-
-**Full Changelog**: https://github.com/pirumart/uganda-administrative-units/commits/v1.0.0
-
 ## Unreleased
+
+### Changed
+
+- Reconciled `database/data/{counties,sub_counties,parishes,villages}.csv` for 21 of the 22 districts added in v1.0.0's district/region reconciliation (all 10 new cities, plus Kalaki, Karenga, Kassanda, Kazo, Kikuube, Kitagwenda, Kwania, Nabilatuk, Obongi, Rwampara, and Terego), using a parish/village-level administrative dataset covering all six levels for these districts. Adds 39 counties, 133 sub-counties, 739 parishes, and 5,696 villages; every existing row (all 124 previously-reconciled districts) is unchanged - this is a pure append.
+  - The 10 new city districts (Arua City, Fort Portal City, Gulu City, Hoima City, Jinja City, Lira City, Masaka City, Mbale City, Mbarara City, Soroti City) don't have real counties - only Divisions. Modeled each Division as its own `County` row with a single identically-named `SubCounty` nested under it, following the precedent already set by Kampala (the one city-like district in the original 124), rather than inventing a new representation.
+  - Several of the 11 non-city new districts turned out to have more than one real county, contrary to a simpler source that suggested one each (e.g. Kassanda splits into Kassanda County North, Kassanda County South, and Bukuya County) - used the multi-county split since it matches how 47 of the existing 124 districts already have multiple counties, and keeps sub-counties nested under the county they actually belong to.
+  - `county_code` continues the existing global counter from 296 (new codes 297-335). `sub_county_code`/`parish_code`/`village_code` are assigned as local ordinals restarting at 1 per parent, matching the existing convention for the other 124 districts.
+
+### Known limitations
+
+- **Madi Okollo remains a partial gap.** It now has county and sub-county rows (1 county, 10 sub-counties, from a separate district-level source), but no parish/village source data exists for it anywhere - it's the one district among the 22 added in v1.0.0 that still has no parish/village rows.
+
+## v1.0.0 - 2026-07-22
 
 ### Fixed
 
@@ -40,11 +41,9 @@ TBD
   - Migrated the test suite from PHPUnit class-based `/** @test */` annotations to Pest's functional `it()`/`expect()` style; added `tests/Pest.php`; removed the placeholder `ExampleTest`.
   - Modernized `phpunit.xml.dist` to the current schema (dropped attributes removed since PHPUnit 10).
   - Updated GitHub Actions: `run-tests.yml` now tests PHP 8.2/8.3/8.4 × Laravel 12 with `actions/checkout@v4` and runs Pest; replaced `psalm.yml` with `phpstan.yml`; replaced `php-cs-fixer.yml` with `fix-php-code-style-issues.yml` (Pint).
-  
 - Reconciled `database/data/districts.csv` and `regions.csv` against an authoritative district-boundary GeoJSON export, growing 124 → 146 districts and 14 → 17 regions (14 sub-regions unchanged, 3 added):
   - Appended the 22 districts/cities the old data predates: 10 new cities from Uganda's 2020 municipal-to-city reform (Arua, Fort Portal, Gulu, Hoima, Jinja, Lira, Masaka, Mbale, Mbarara, Soroti) and 12 newer districts (Kalaki, Karenga, Kassanda, Kazo, Kikuube, Kitagwenda, Kwania, Madi Okollo, Nabilatuk, Obongi, Rwampara, Terego), with new codes 125–146 (alphabetical, for reproducibility). All 124 existing `district_code` values are unchanged, since `counties.csv`/`sub_counties.csv`/`parishes.csv`/`villages.csv` reference them.
   - Added 3 new sub-regions to `regions.csv`: Kampala (Central), Madi (Northern, split from West Nile), Tooro (Western, split from Rwenzori) - chosen from the source's `New_SubReg` field specifically because it's compatible with the existing 14 sub-region names, unlike the source's alternate `Sub_Region` field (which merges Bugisu+Sebei into "Elgon" and splits Buganda into North/South).
-  
 
 ### Added
 
