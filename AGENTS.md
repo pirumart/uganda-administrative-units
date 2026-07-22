@@ -72,14 +72,13 @@ leftover with no behavior).
 
 ## Known remaining work (not yet done)
 
-- **County/sub-county/parish/village data is not reconciled to current
-  administrative boundaries.** Only district/region were reconciled (see
-  above), because the available boundary source (`Uganda_Districts_NEW.json`,
-  a district-level GeoJSON) has no lower-level geometry. The 22 newly added
-  districts have no county/sub-county/parish/village rows at all - a
-  consumer seeding this package today will get villages for the old 124
-  districts but none for the new 22. Populating those would need a different
-  source (e.g. a parish- or village-level shapefile).
+- **Madi Okollo has no parish/village data.** 21 of the 22 districts added in
+  the district/region reconciliation now have full county-through-village
+  data (see CHANGELOG "Unreleased"). Madi Okollo is the one exception - it
+  has county/sub-county rows but no parish/village rows, because no
+  available source reaches that depth for it. Populating those would need a
+  different source (e.g. a parish- or village-level shapefile covering that
+  district).
 
 ## Key files to understand the domain
 
@@ -121,3 +120,12 @@ leftover with no behavior).
   the region/sub_region swap fix; seeds the real CSVs (not a hand-crafted
   fixture) to catch data-shape bugs the fixture-based
   `ModelRelationshipsTest` can't see.
+- `tests/NewDistrictsHierarchyTest.php` - regression test for the
+  county/sub-county/parish/village gap-fill covering 21 of the 22 districts
+  added in the district/region reconciliation; also documents that Madi
+  Okollo (the 22nd) still has no parish/village rows. Queries tables
+  directly by natural-key columns rather than through the
+  county()/sub_county()/parish() belongsTo relations, which match on a
+  single non-globally-unique code column (`sub_county_code`/`parish_code`
+  are local ordinals that repeat across different parents) and can't be
+  trusted to resolve the correct parent against real data.

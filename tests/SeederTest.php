@@ -23,23 +23,23 @@ it('inserts every row via the district seeder', function () {
 it('inserts every row via the county seeder', function () {
     (new CountyTableSeeder)->run();
 
-    expect(DB::table('counties')->count())->toBe(282);
+    expect(DB::table('counties')->count())->toBe(321);
 });
 
 it('inserts every row via the sub county seeder', function () {
     (new SubCountyTableSeeder)->run();
 
-    expect(DB::table('sub_counties')->count())->toBe(1972);
+    expect(DB::table('sub_counties')->count())->toBe(2105);
 });
 
 it('inserts every row via the parish seeder', function () {
     (new ParishTableSeeder)->run();
 
-    expect(DB::table('parishes')->count())->toBe(9583);
+    expect(DB::table('parishes')->count())->toBe(10322);
 });
 
 it('inserts every row via the village seeder', function () {
     (new VillageTableSeeder)->run();
 
-    expect(DB::table('villages')->count())->toBe(31143);
+    expect(DB::table('villages')->count())->toBe(36839);
 });

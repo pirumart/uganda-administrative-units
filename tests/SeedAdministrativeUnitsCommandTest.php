@@ -7,8 +7,8 @@ it('seeds every table via artisan', function () {
 
     expect(DB::table('regions')->count())->toBe(17);
     expect(DB::table('districts')->count())->toBe(146);
-    expect(DB::table('counties')->count())->toBe(282);
-    expect(DB::table('sub_counties')->count())->toBe(1972);
-    expect(DB::table('parishes')->count())->toBe(9583);
-    expect(DB::table('villages')->count())->toBe(31143);
+    expect(DB::table('counties')->count())->toBe(321);
+    expect(DB::table('sub_counties')->count())->toBe(2105);
+    expect(DB::table('parishes')->count())->toBe(10322);
+    expect(DB::table('villages')->count())->toBe(36839);
 });
